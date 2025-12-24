@@ -19,7 +19,7 @@ if __name__ == "__main__":
     )
     data = response.json()
 
-    if not len(data):
+    if not data:
         print("RequestError:", 404)
         sys.exit(1)
 
@@ -28,7 +28,10 @@ if __name__ == "__main__":
     done_tasks = [task for task in data if task["completed"]]
     NUMBER_OF_DONE_TASKS = len(done_tasks)
 
-    print(f"Employee {EMPLOYEE_NAME} is done with tasks"
-          f"({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
-    for task in NUMBER_OF_DONE_TASKS:
+    print(
+        f"Employee {EMPLOYEE_NAME} is done with tasks"
+        f"({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):"
+    )
+
+    for task in done_tasks:
         print(f"\t {task['title']}")
