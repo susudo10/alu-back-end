@@ -23,12 +23,12 @@ if __name__ == "__main__":
         print("RequestError:", 404)
         sys.exit(1)
 
-    employee_name = data[0]["user"]["name"]
-    total_tasks = len(data)
+    EMPLOYEE_NAME = data[0]["user"]["name"]
+    TOTAL_NUMBER_OF_TASKS = len(data)
     done_tasks = [task for task in data if task["completed"]]
-    total_done_tasks = len(done_tasks)
+    NUMBER_OF_DONE_TASKS = len(done_tasks)
 
-    print(f"Employee {employee_name} is done with tasks"
-          f"({total_done_tasks}/{total_tasks}):")
-    for task in done_tasks:
+    print(f"Employee {EMPLOYEE_NAME} is done with tasks"
+          f"({NUMBER_OF_DONE_TASKS}/{ TOTAL_NUMBER_OF_TASKS}):")
+    for task in NUMBER_OF_DONE_TASKS:
         print(f"\t {task['title']}")
