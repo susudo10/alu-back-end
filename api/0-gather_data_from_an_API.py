@@ -7,30 +7,27 @@ import sys
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print(f"UsageError: python3 {__file__} employee_id(int)")
         sys.exit(1)
 
-    API_URL = "https://jsonplaceholder.typicode.com"
-    EMPLOYEE_ID = sys.argv[1]
+    employee_id = sys.argv[1]
+    api_url = "https://jsonplaceholder.typicode.com"
 
-    response = requests.get(
-        f"{API_URL}/users/{EMPLOYEE_ID}/todos",
-        params={"_expand": "user"}
-    )
-    data = response.json()
-
-    if not data:
-        print("RequestError:", 404)
+    # Get employee info
+    user = requests.get(f"{api_url}/users/{employee_id}").json()
+    if "name" not in user:
         sys.exit(1)
 
-    EMPLOYEE_NAME = data[0]["user"]["name"]
-    TOTAL_NUMBER_OF_TASKS = len(data)
-    done_tasks = [task for task in data if task["completed"]]
-    NUMBER_OF_DONE_TASKS = len(done_tasks)
+    # Get employee todos
+    todos = requests.get(
+        f"{api_url}/todos",
+        params={"userId": employee_id}
+    ).json()
+
+    done_tasks = [task for task in todos if task.get("completed")]
 
     print(
-        f"Employee {EMPLOYEE_NAME} is done with tasks"
-        f"({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):"
+        f"Employee {user['name']} is done with tasks"
+        f"({len(done_tasks)}/{len(todos)}):"
     )
 
     for task in done_tasks:
